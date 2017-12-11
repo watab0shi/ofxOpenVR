@@ -5,6 +5,7 @@
 //--------------------------------------------------------------
 void ofApp::setup(){
 	ofSetVerticalSync(false);
+    ofDisableArbTex();
 
 	bShowHelp = true;
 	bUseShader = true;
