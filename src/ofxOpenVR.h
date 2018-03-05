@@ -82,6 +82,7 @@ public:
 	void hideGrid(float transitionDuration = 2.0f);
 
 	ofEvent<ofxOpenVRControllerEventArgs> ofxOpenVRControllerEvent;
+	glm::mat4x4 getmat4HMDPose();
 
 private:
 
@@ -183,7 +184,7 @@ private:
 	void renderScene(vr::Hmd_Eye nEye);
 
 	glm::mat4x4 convertSteamVRMatrixToMatrix4(const vr::HmdMatrix34_t &matPose);
-
+	
 	bool _bRenderModelForTrackedDevices;
 	ofShader _renderModelsShader;
 	CGLRenderModel* findOrLoadRenderModel(const char *pchRenderModelName);

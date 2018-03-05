@@ -989,8 +989,8 @@ void ofxOpenVR::renderStereoTargets()
 	glBindFramebuffer(GL_READ_FRAMEBUFFER, 0);
 	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
 
-
-	glEnable(GL_MULTISAMPLE);
+	glClearColor(_clearColor.r, _clearColor.g, _clearColor.b, _clearColor.a);
+	//glEnable(GL_MULTISAMPLE);
 
 	// Right Eye
 	glBindFramebuffer(GL_FRAMEBUFFER, rightEyeDesc._nRenderFramebufferId);
@@ -1068,8 +1068,9 @@ void ofxOpenVR::drawControllers()
 //--------------------------------------------------------------
 void ofxOpenVR::renderScene(vr::Hmd_Eye nEye)
 {
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glEnable(GL_DEPTH_TEST);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	
 
 	// Don't continue if somebody else has input focus
 	if (_pHMD->IsInputFocusCapturedByAnotherProcess()) {
@@ -1113,11 +1114,15 @@ void ofxOpenVR::renderScene(vr::Hmd_Eye nEye)
 
 	// User's render function
 	_callableRenderFunction(nEye);
+
+	
+	
 }
 
 //--------------------------------------------------------------
 void ofxOpenVR::renderDistortion()
 {
+
 	glDisable(GL_DEPTH_TEST);
 	glViewport(0, 0, ofGetWidth(), ofGetHeight());
 
@@ -1164,6 +1169,23 @@ glm::mat4x4 ofxOpenVR::convertSteamVRMatrixToMatrix4(const vr::HmdMatrix34_t &ma
 		matPose.m[0][3], matPose.m[1][3], matPose.m[2][3], 1.0f
 	);
 	return matrixObj;
+}
+
+glm::mat4x4 ofxOpenVR::getmat4HMDPose()
+{
+	glm::mat4x4 matrixOb;
+	if (!_pHMD)
+	{
+		return matrixOb;
+	}
+	if (_pHMD)
+	{
+		
+		matrixOb = glm::inverse(_mat4HMDPose);
+		return matrixOb;
+	}
+		
+	
 }
 
 //--------------------------------------------------------------
