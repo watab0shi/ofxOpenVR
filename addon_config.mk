@@ -76,4 +76,6 @@ vs:
 
 	ADDON_SOURCES_EXCLUDE = ..\..\..\addons\ofxOpenVR\libs\OpenVR\samples
 	ADDON_SOURCES_EXCLUDE += ..\..\..\addons\ofxOpenVR\libs\OpenVR\samples\%
+	ADDON_SOURCES_EXCLUDE += ..\..\..\addons\ofxOpenVR\libs\OpenVR\src
+	ADDON_SOURCES_EXCLUDE += ..\..\..\addons\ofxOpenVR\libs\OpenVR\src\%
 	
