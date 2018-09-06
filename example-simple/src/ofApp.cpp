@@ -1,7 +1,5 @@
 #include "ofApp.h"
 
-#define STRINGIFY(A) #A
-
 //--------------------------------------------------------------
 void ofApp::setup(){
 	ofSetVerticalSync(false);
@@ -23,43 +21,42 @@ void ofApp::setup(){
 	_translateMatrix.translate(ofVec3f(0.0, .0, -2.0));
 
 	// Vertex shader source
-	string vertex;
+	string vertex = R"(
+#version 150
 
-	vertex = "#version 150\n";
-	vertex += STRINGIFY(
-						uniform mat4 matrix;
+uniform mat4 matrix;
 
-						in vec4  position;
-						in vec2  texcoord;
+in vec4  position;
+in vec2  texcoord;
 
-						out vec2 texCoordVarying;
+out vec2 texCoordVarying;
 
-						void main()
-						{
-							texCoordVarying = texcoord;
-							gl_Position = matrix * position;
-
-						}
-					);
+void main()
+{
+	texCoordVarying = texcoord;
+	gl_Position = matrix * position;
+}
+)";
 
 	// Fragment shader source
-	string fragment = "#version 150\n";
-	fragment += STRINGIFY(
-						uniform sampler2DRect baseTex;
-						
-						in vec2 texCoordVarying;
+	string fragment = R"(
+#version 150
 
-						out vec4 fragColor;
+uniform sampler2DRect baseTex;
 
-						vec2 texcoord0 = texCoordVarying;
+in vec2 texCoordVarying;
 
-						void main() {
-							vec2 tx = texcoord0;
-							tx.y = 256.0 - tx.y;
-							vec4 image = texture(baseTex, tx);
-							fragColor = image;
-						}
-					);
+out vec4 fragColor;
+
+vec2 texcoord0 = texCoordVarying;
+
+void main() {
+	vec2 tx = texcoord0;
+	tx.y = 256.0 - tx.y;
+	vec4 image = texture(baseTex, tx);
+	fragColor = image;
+}
+)";
 
 	// Shader
 	_shader.setupShaderFromSource(GL_VERTEX_SHADER, vertex);
@@ -72,37 +69,39 @@ void ofApp::setup(){
 	_controllerBox.enableColors();
 
 	// Vertex shader source
-	vertex = "#version 150\n";
-	vertex += STRINGIFY(
-						uniform mat4 matrix;
+	vertex = R"(
+#version 150
 
-						in vec4 position;
-						in vec3 v3ColorIn;
+uniform mat4 matrix;
 
-						out vec4 v4Color;
+in vec4 position;
+in vec3 v3ColorIn;
 
-						void main() {
-							v4Color.xyz = v3ColorIn; v4Color.a = 1.0;
-							gl_Position = matrix * position;
-						}
-					);
+out vec4 v4Color;
+
+void main() {
+	v4Color.xyz = v3ColorIn; v4Color.a = 1.0;
+	gl_Position = matrix * position;
+}
+)";
 
 	// Fragment shader source
-	fragment = "#version 150\n";
-	fragment += STRINGIFY(
-						in vec4 v4Color;
-						out vec4 outputColor;
-						void main() {
-							outputColor = v4Color;
-						}
-					);
+	fragment = R"(
+#version 150
+
+in vec4 v4Color;
+out vec4 outputColor;
+
+void main() {
+	outputColor = v4Color;
+}
+)";
 
 	// Shader
 	_controllersShader.setupShaderFromSource(GL_VERTEX_SHADER, vertex);
 	_controllersShader.setupShaderFromSource(GL_FRAGMENT_SHADER, fragment);
 	_controllersShader.bindDefaults();
 	_controllersShader.linkProgram();
-
 }
 
 //--------------------------------------------------------------

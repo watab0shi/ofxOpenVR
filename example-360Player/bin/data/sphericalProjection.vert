@@ -11,5 +11,4 @@ out vec4 modelNormal;
 void main() {
 	modelNormal = normal;
 	gl_Position = modelViewProjectionMatrix * position;
-
 }

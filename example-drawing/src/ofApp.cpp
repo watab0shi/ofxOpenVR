@@ -1,7 +1,5 @@
 #include "ofApp.h"
 
-#define STRINGIFY(A) #A
-
 //--------------------------------------------------------------
 void ofApp::setup(){
 	ofSetVerticalSync(false);
@@ -23,27 +21,27 @@ void ofApp::setup(){
 	ofAddListener(openVR.ofxOpenVRControllerEvent, this, &ofApp::controllerEvent);
 
 	// Vertex shader source
-	string vertex;
+	string vertex = R"(
+#version 150
 
-	vertex = "#version 150\n";
-	vertex += STRINGIFY(
-						uniform mat4 matrix;
+uniform mat4 matrix;
 
-						in vec4 position;
+in vec4 position;
 
-						void main() {
-							gl_Position = matrix * position;
-						}
-						);
+void main() {
+	gl_Position = matrix * position;
+}
+)";
 
 	// Fragment shader source
-	string fragment = "#version 150\n";
-	fragment += STRINGIFY(
-						out vec4 outputColor;
-						void main() {
-							outputColor = vec4(1.0, 1.0, 1.0, 1.0);
-						}
-						);
+	string fragment = R"(
+#version 150
+
+out vec4 outputColor;
+void main() {
+	outputColor = vec4(1.0, 1.0, 1.0, 1.0);
+}
+)";
 
 	// Shader
 	shader.setupShaderFromSource(GL_VERTEX_SHADER, vertex);
