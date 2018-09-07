@@ -12,11 +12,11 @@ void ofApp::setup(){
 	openVR.setup(std::bind(&ofApp::render, this, std::placeholders::_1));
 
 	image.load("DSCN0143.JPG");
-	sphere.set(sphere_rad, 10);
+	sphere.set(10, 10);
 	sphere.setPosition(glm::vec3(.0f, .0f, .0f));
 
 	//Shader setup
-	//shader_.load("sphericalProjection");
+	//shader.load("sphericalProjection");
 
 	// Vertex shader source
 	string vertex = R"(
