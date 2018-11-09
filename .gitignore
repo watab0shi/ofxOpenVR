@@ -31,6 +31,8 @@ project.xcworkspace
 obj/
 build/
 
+.vs/
+
 example-simple/bin/*
 !example-simple/bin/data
 example-drawing/bin/*
