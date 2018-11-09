@@ -1184,9 +1184,18 @@ glm::mat4x4 ofxOpenVR::getmat4HMDPose()
 		matrixOb = glm::inverse(_mat4HMDPose);
 		return matrixOb;
 	}
-		
-	
 }
+
+//--------------------------------------------------------------
+void ofxOpenVR::triggerHapticPulse(vr::ETrackedControllerRole role, vr::EVRButtonId buttonId, int durationMicroSec)
+{
+	if (isControllerConnected(role))
+	{
+		int controllerId = (role == vr::TrackedControllerRole_LeftHand) ? _leftControllerDeviceID : _rightControllerDeviceID;
+		_pHMD->TriggerHapticPulse(controllerId, buttonId, (unsigned short)durationMicroSec);
+	}
+}
+
 
 //--------------------------------------------------------------
 void ofxOpenVR::setRenderModelForTrackedDevices(bool bRender)

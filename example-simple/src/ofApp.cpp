@@ -162,7 +162,30 @@ void  ofApp::render(vr::Hmd_Eye nEye)
 //--------------------------------------------------------------
 void ofApp::controllerEvent(ofxOpenVRControllerEventArgs& args)
 {
-	cout << "ofApp::controllerEvent > role: " << (int)args.controllerRole << " - event type: " << (int)args.eventType << " - button type: " << (int)args.buttonType << " - x: " << args.analogInput_xAxis << " - y: " << args.analogInput_yAxis << endl;
+	int   role = (int)args.controllerRole;
+	int   eventType = (int)args.eventType;
+	int   buttonType = (int)args.buttonType;
+	float x = args.analogInput_xAxis;
+	float y = args.analogInput_yAxis;
+
+	cout << "[controllerEvent]" << endl
+		<< "  role   : " << role << endl
+		<< "  event  : " << eventType << endl
+		<< "  button : " << buttonType << endl
+		<< "  x      : " << x << endl
+		<< "  y      : " << y << endl
+		<< endl;
+
+	bool isTouched = (eventType == (int)EventType::ButtonTouch) && (buttonType == (int)ButtonType::ButtonTouchpad);
+
+	if (isTouched)
+	{
+		if (role != (int)ControllerRole::Unknown)
+		{
+			vr::ETrackedControllerRole r = (role == (int)ControllerRole::Left) ? vr::TrackedControllerRole_LeftHand : vr::TrackedControllerRole_RightHand;
+			_openVR.triggerHapticPulse(r, vr::k_EButton_Axis0, 1000);
+		}
+	}
 }
 
 //--------------------------------------------------------------

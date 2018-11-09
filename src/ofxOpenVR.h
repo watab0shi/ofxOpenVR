@@ -84,6 +84,8 @@ public:
 	ofEvent<ofxOpenVRControllerEventArgs> ofxOpenVRControllerEvent;
 	glm::mat4x4 getmat4HMDPose();
 
+	void triggerHapticPulse(vr::ETrackedControllerRole role, vr::EVRButtonId buttonId, int durationMicroSec);
+
 private:
 
 	struct VertexDataScene
